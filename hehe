@@ -1,0 +1,22 @@
+
+    // var result = await collection.insertMany([
+    //     {
+    //         name: "John Doe",
+    //         address: "19 Quai de la Tournelle, 75005 Paris, France",
+    //         phone: "6282345678900",
+    //         children: {
+    //             name: "Laura Doe",
+    //             class: "3rd Grade",
+    //         },
+    //     },
+    //     {
+    //         name: "Loid Forger",
+    //         address: "128 Park Avenue, West Berlint ",
+    //         age: "30",
+    //         phone: "6282345678900",
+    //         children: {
+    //             name: "Anya Forger",
+    //             class: "3rd Grade",
+    //         },
+    //     },
+    // ]);
