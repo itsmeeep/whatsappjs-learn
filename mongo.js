@@ -1,5 +1,5 @@
 const { MongoClient } = require("mongodb");
-const url = "mongodb://localhost:27017";
+const url = "mongodb://0.0.0.0:27017";
 const mongo = new MongoClient(url);
 const databaseName = "whatsapp";
 
@@ -17,6 +17,6 @@ const getAll = (collsName) => new Promise(async (resolve, reject) => {
 });
 
 (async () => {  
-    var result = await getAll();
+    var result = await getAll("parents");
     console.log(result)
 })();

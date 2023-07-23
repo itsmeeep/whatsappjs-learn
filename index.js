@@ -10,6 +10,26 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+// mongo
+const { MongoClient } = require("mongodb");
+const url = "mongodb://0.0.0.0:27017";
+const mongo = new MongoClient(url);
+const databaseName = "whatsapp";
+
+const getAll = (collsName) => new Promise(async (resolve, reject) => {
+  await mongo.connect();
+  console.log("Connected successfully to server");
+
+  const db = mongo.db(databaseName);
+  const collection = db.collection(collsName);
+
+  var result = await collection.find({}).toArray();
+  await mongo.close();
+
+  resolve(result);
+});
+// end mongo
+
 // whatsapp
 whatsapp.on("qr", (qr) => {
   qrcode.generate(qr, {
@@ -29,19 +49,25 @@ whatsapp.on("message", async (message) => {
 });
 
 app.get("/send-whatsapp-notification", async (req, res) => {
-  var parents = await fs.readFile("parents.json");
-  parents = JSON.parse(parents);
+  // Old Source Data
+  // var parents = await fs.readFile("parents.json");
+  // parents = JSON.parse(parents);
+
+  // New Source Data
+  var parents = await getAll("parents");
 
   for (var i = 0; i < parents.length; i++) {
-    var numbers = parents[i].number + "@c.us";
+    var numbers = parents[i].phone + "@c.us";
     var text =
       "Dear Mr/Mrs " +
-      parents[i].number +
+      parents[i].phone +
       ", \nwe inform you that " +
       parents[i].student +
       " is ..... . \nThank you";
 
     await whatsapp.sendMessage(numbers, text);
+
+    console.log(parents[i].phone)
   }
 
   res.send(parents);
